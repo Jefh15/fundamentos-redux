@@ -72,5 +72,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### `Cambio en GIT`
 git init
+git add .
 git commit -m "NOMBREDECOMMIT"
 git push -u origin main
