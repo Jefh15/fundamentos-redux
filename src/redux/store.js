@@ -6,7 +6,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 // importo mi archivo por defecto
-import pokesReducer from './pokesDucks'
+import pokesReducer from './pokeDucks'
 
 
 // combinar todos nuestros patos
@@ -24,9 +24,10 @@ const rootReducer = combineReducers({
 
 // exporto la funcion
 export default function generateStore() {
-
+    // eslint-disable no-underscore-dangle
     // configuro mi middleware, creo la tienda(paso nuestro root resucer, luego paso la extension( que recibe en su interior paso el middlware que el thunk))
     const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
+    /* eslint-enable */
     // la configurada la veolvemos
     return store
 }
