@@ -23,8 +23,8 @@ const Pokemones = () => {
     // store.pokemones lo sacamos de la tienda
     const pokemones = useSelector(
         // devuelve una funcion de flecha a nuestro store
-        // como queremos solo acceder al array --> .array
-        store => store.pokemones.array
+        // como queremos solo acceder al results --> results
+        store => store.pokemones.results
     )
     // imprimo los el array de pokemones
     console.log(pokemones)

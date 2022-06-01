@@ -11,9 +11,15 @@ import axios from 'axios'
 // CONSTANTES
 const dataInitial = {
     // nuestro estado que inicial limpio
-    array: [],
+    // array: [],
     // offset---> para que inicie en 0 para poder hacer la paginacion
-    offset: 0
+    // offset: 0
+
+    // como vamos a paginar
+    count: 0,
+    next: null,
+    previous: null,
+    results: []
 }
 
 
@@ -41,7 +47,7 @@ export default function pokeReducer(state = dataInitial, action) {
                 // el state tiene que ser copiado de su data inicial
                 ...state,
                 // le decimos que ese array va a ser a la accion de mi payload
-                array: action.payload
+                ...action.payload
             }
 
         // boton de siguiente
@@ -51,9 +57,7 @@ export default function pokeReducer(state = dataInitial, action) {
                 // el state tiene que ser copiado de su data inicial
                 ...state,
                 // le decimos que ese array va a ser a la accion de mi payload
-                array: action.payload.array,
-                // le decimos que nuestro offset va a ser igual a nuestro payload.action
-                offset: action.payload.offset
+                ...action.payload
             }
 
 
@@ -83,14 +87,16 @@ export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
 
     // accedemos al offset de mi estado initialState
     // Hago destructuring para obtener la propiedad offset
-    const { offset } = getState().pokemones
+    // const { offset } = getState().pokemones
 
     try {
 
         // guardo la respuesta de la espera de axios
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`)
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`)
         // para obtener el resultado
         // res.data.results
+        // console.log(res.data) // aqui viene toda la informacion de la API
+        // podemos utilizar previus
 
         // para poder activar nuestro switch ocupamos el dispath
         dispatch(
@@ -102,7 +108,7 @@ export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
                 payload:
                     // para obtener la lista de los pokemones
                     // data lo proporcion axios
-                    res.data.results
+                    res.data
 
             })
 
@@ -128,14 +134,20 @@ export const siguientePokemonAccion = (numero) => async (dispatch, getState) => 
 
     // accedemos al offset de mi estado initialState
     // Hago destructuring para obtener la propiedad offset
-    const { offset } = getState().pokemones
-    // le sumo 20 a la peticion
-    const siguiente = offset + numero
+    // const { offset } = getState().pokemones
+    // // le sumo 20 a la peticion
+    // const siguiente = offset + numero
+
+
+    // accedo 
+    const { next } = getState().pokemones
+    // console.log(next)
 
     try {
 
         // guardo la respuesta de la espera de axios
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${siguiente}&limit=20`)
+        // next es toda nuestra url
+        const res = await axios.get(next)
         // para obtener el resultado
         // res.data.results
 
@@ -147,16 +159,16 @@ export const siguientePokemonAccion = (numero) => async (dispatch, getState) => 
                 type: SIGUIENTE_POKEMONES_EXITO,
                 // tiene la respuesta
                 payload:
-                // para obtener la lista de los pokemones
-                // data lo proporcion axios
-                // res.data.results
+                    // para obtener la lista de los pokemones
+                    // data lo proporcion axios
+                    res.data
 
-                {
-                    // ahora es un objeto en mi payload
-                    array: res.data.results,
-                    offset: siguiente
+                // {
+                // ahora es un objeto en mi payload
+                // array: res.data.results,
+                // offset: siguiente
 
-                }
+                // }
             })
 
 
