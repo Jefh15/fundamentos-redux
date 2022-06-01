@@ -7,7 +7,10 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 // importamos la acción
-import { obtenerPokemonesAccion } from '../redux/pokeDucks'
+import {
+    obtenerPokemonesAccion,
+    siguientePokemonAccion
+} from '../redux/pokeDucks'
 
 
 const Pokemones = () => {
@@ -31,11 +34,21 @@ const Pokemones = () => {
     return (
         <div className='container mt-2'>
             <h1>Pokemones!</h1>
+            {/* Me creo un boton */}
             <button
+                className='btn btn-info'
                 // on click
                 onClick={
                     // dispatch( llama la funcion especifica)
-                    () => dispatch(obtenerPokemonesAccion())}>Obtener</button>
+                    () => dispatch(obtenerPokemonesAccion())}>Obtener pokemones</button>
+            {/* Me creo otro boton siguiente */}
+            <button
+                className='btn btn-info'
+                // on click
+                onClick={
+                    // dispatch( llama la funcion especifica)
+                    // siguientePokemonAccion(RECIBE UN NUMERO)
+                    () => dispatch(siguientePokemonAccion(20))}>Siguiente</button>
             {/* hago una lista */}
             <ul>
                 {
