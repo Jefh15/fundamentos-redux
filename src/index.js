@@ -15,12 +15,12 @@ const store = generateStore()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* envuelvo mis componentes en un provider para poder usar esos archivos de redux */}
-    {/* le envio al provedor el store(la tienda) */}
-    < Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  // {/* envuelvo mis componentes en un provider para poder usar esos archivos de redux */}
+  // {/* le envio al provedor el store(la tienda) */}
+  < Provider store={store}>
+    <App />
+  </Provider>
+  // </React.StrictMode>
 );
 
