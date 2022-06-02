@@ -29,6 +29,7 @@ const dataInitial = {
 const OBTENER_POKEMONES_EXITO = 'OBTENER_POKEMONES_EXITO'
 const SIGUIENTE_POKEMONES_EXITO = 'SIGUIENTE_POKEMONES_EXITO'
 const ANTERIOR_POKEMONES_EXITO = 'ANTERIOR_POKEMONES_EXITO'
+const POKE_INFO_EXITO = 'POKE_INFO_EXITO'
 
 
 
@@ -69,6 +70,16 @@ export default function pokeReducer(state = dataInitial, action) {
                 ...state,
                 // le decimos que reemplace lo que haya cambiado
                 ...action.payload
+            }
+
+        // boton de anterior
+        case POKE_INFO_EXITO:
+            // abrimos un objeto
+            return {
+                // el state tiene que ser copiado de su data inicial
+                ...state,
+                // le decimos tome lo que tenga el payload
+                unPokemon: action.payload
             }
 
 
@@ -356,5 +367,69 @@ export const anteriorPokemonAccion = () => async (dispatch, getState) => {
         console.log(error)
     }
 
+}
+
+
+
+
+// ACCIONES
+// devuelve dos funciones de flecha
+// () ---> dentro van los paramtros
+// () ---> necesita un dispath y un getState
+// dispatch -> activamos el reducer
+// getState -> obtenemos la data inicial en el state
+// como es un llamado de un api es async
+export const unpokeDetalleAccion = (url = 'https://pokeapi.co/api/v2/pokemon/1/') => async (dispatch, getState) => {
+
+    // // cuando abra la aplicacion por primera ves, y no le mandamos una url
+    // // si la url es igual undefined, osea no esta definida
+    // if (url === undefined) {
+    //     // cuando abra la aplicacion por primera ves, y no le mandamos una url
+    //     // traiga esta por defecto
+    //     url = 'https://pokeapi.co/api/v2/pokemon/1/'
+
+    // }
+
+
+
+
+
+    try {
+
+        console.log('datos desde la api')
+
+        // guardo la respuesta de la espera de axios
+        // next es toda nuestra url
+        const res = await axios.get(url)
+        // para obtener el resultado
+        console.log(res.data)
+        // res.data.results
+
+        // para poder activar nuestro switch ocupamos el dispath
+        dispatch(
+            // hago un objeto
+            {
+                // senalamos el type
+                type: POKE_INFO_EXITO,
+                // tiene la respuesta
+                payload:
+                // para obtener la lista de los pokemones
+                // data lo proporcion axios
+                // res.data
+
+                {
+                    // ahora es un objeto en mi payload
+                    // de mi peticion de mi payload tomamos
+                    nombre: res.data.name,
+                    ancho: res.data.weight,
+                    alto: res.data.height,
+                    foto: res.data.sprites.front_default
+                }
+            })
+
+
+    } catch (error) {
+        console.log(error)
+    }
 
 }

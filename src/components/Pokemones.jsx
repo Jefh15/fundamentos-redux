@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     anteriorPokemonAccion,
     obtenerPokemonesAccion,
-    siguientePokemonAccion
+    siguientePokemonAccion,
+    unpokeDetalleAccion
 } from '../redux/pokeDucks'
+// importo mi componente
+import Detalle from './Detalle'
 
 
 const Pokemones = () => {
@@ -126,14 +129,20 @@ const Pokemones = () => {
                             >
                                 {item.name}
                                 {/* hago un boton dentro */}
-                                <button className="btn btn-success btn-sm float-right">Info</button>
+                                <button
+                                    className="btn btn-success btn-sm float-right"
+                                    // funcion
+                                    // url -> viene de --> item.url
+                                    onClick={() => dispatch(unpokeDetalleAccion(item.url))}
+                                >Info</button>
                             </li>
                         ))
                     }
                 </ul>
             </div>
             <div className="col-md-6">
-                <h1>Detalle de un pokemon</h1>
+                <h3>Detalle Pokemon</h3>
+                <Detalle />
             </div>
         </div >
     )
