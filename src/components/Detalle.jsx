@@ -10,6 +10,8 @@ const Detalle = () => {
 
     const dispatch = useDispatch()
 
+
+    // para cuando la pagina se abra por primera vez
     useEffect(() => {
 
         // creo una funcion de flecha
@@ -31,7 +33,7 @@ const Detalle = () => {
     // abra la tienda -> store ---> use la propiedad ---> pokemon ----> y use la propiedad que tiene --> unPokemon
     const pokemon = useSelector(store => store.pokemones.unPokemon)
     // muestro el pokemon
-    console.log(pokemon)
+    // console.log(pokemon)
 
 
 

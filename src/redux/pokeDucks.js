@@ -144,7 +144,7 @@ export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
         console.log('datos desde la api')
 
         // guardo la respuesta de la espera de axios
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`)
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=4`)
         // para obtener el resultado
         // res.data.results
         // console.log(res.data) // aqui viene toda la informacion de la API
@@ -390,7 +390,30 @@ export const unpokeDetalleAccion = (url = 'https://pokeapi.co/api/v2/pokemon/1/'
 
     // }
 
+    // url ----> esta en mi key en mi localStorage
+    if (localStorage.getItem(url)) {
 
+        // si eso existe
+        console.log('datos guardados')
+
+
+        // como ya tenemos la data simplemente hacemos el dispatch
+        // para poder activar nuestro switch ocupamos el dispath
+        dispatch(
+            // hago un objeto
+            {
+                // senalamos el type
+                type: POKE_INFO_EXITO,
+                // tiene la respuesta
+                payload:
+                    // LO SACAMOS DE LOCALSTORAGE
+                    // COMO VIENE EN STRING ---> TENEMOS QUE TRASFORMARLO A ARRAY con ---> JSON.parse()
+                    JSON.parse(localStorage.getItem(url))
+            })
+
+        // HAGO EL RETURN para que salga del if
+        return
+    }
 
 
 
@@ -402,7 +425,7 @@ export const unpokeDetalleAccion = (url = 'https://pokeapi.co/api/v2/pokemon/1/'
         // next es toda nuestra url
         const res = await axios.get(url)
         // para obtener el resultado
-        console.log(res.data)
+        // console.log(res.data)
         // res.data.results
 
         // para poder activar nuestro switch ocupamos el dispath
@@ -426,6 +449,17 @@ export const unpokeDetalleAccion = (url = 'https://pokeapi.co/api/v2/pokemon/1/'
                     foto: res.data.sprites.front_default
                 }
             })
+
+        // guardamos en localStorage el res
+        // como es un array y debo guardarlo en localStorage que solo permite string lo tranformo a string con JSON.stringify(propiedad)
+        // url ----> esta en mi key en mi localstorage ---> para que sea siempre distinta
+        localStorage.setItem(url, JSON.stringify({
+            // contruimos el string para no pasar todo el res.data --> pasar solo lo necesario
+            nombre: res.data.name,
+            ancho: res.data.weight,
+            alto: res.data.height,
+            foto: res.data.sprites.front_default
+        }))
 
 
     } catch (error) {

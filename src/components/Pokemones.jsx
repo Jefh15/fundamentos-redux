@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // importo dos hooks useDispatch y useSelector ya configuradps en react-redux
 
 // hooks react redux
@@ -47,6 +47,24 @@ const Pokemones = () => {
         // como queremos solo acceder al results --> results
         store => store.pokemones.previous
     )
+
+
+    // para cuando la pagina se abra por primera vez
+    useEffect(() => {
+
+        // creo una funcion de flecha
+        const fetchData = () => {
+            // llamo la accion
+            dispatch(obtenerPokemonesAccion())
+        }
+
+        // llamo la funcion que cree
+        fetchData()
+
+        //   para que se ejecute solo una vez
+    }, [dispatch])
+
+
 
 
     return (
