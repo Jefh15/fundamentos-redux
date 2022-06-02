@@ -15,7 +15,9 @@ function App() {
     // {/* envuelvo mis componentes en un provider para poder usar esos archivos de redux */ }
     // le envio al provedor el store(la tienda)
     < Provider store={store}>
-      <Pokemones />
+      <div className="container mt-3">
+        <Pokemones />
+      </div>
     </Provider >
   );
 }

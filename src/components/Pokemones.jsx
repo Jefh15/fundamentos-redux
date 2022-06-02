@@ -47,72 +47,94 @@ const Pokemones = () => {
 
 
     return (
-        <div className='container mt-2'>
-            <h1>Pokemones!</h1>
+        <div
+            className='row'
+        >
 
-            <br />
+            {/* trabajamos con el sistema de columnas */}
+            <div className="col-md-6">
 
+                <h3>Pokemones!</h3>
 
-            {/* HAGO UNA CONDICION PARA LOS BOTONES */}
-            {
-                // SI POKEMONES.lenght es igual a 0 ---> mostramos el boton de pokemones
-                pokemones.length === 0 && (
-                    // muestro el boton de obtener pokemones
-                    // {/* Me creo un boton */ }
-                    < button
-                        className='btn btn-warning mr-2'
-                        // on click
-                        onClick={
-                            // dispatch( llama la funcion especifica)
-                            () => dispatch(obtenerPokemonesAccion())}>Obtener pokemones</button>
-                )
-            }
+                <br />
 
 
-            {/* HAGO UNA CONDICION PARA EL BOTON DE NEXT */}
-            {
-                // SI EL NEXT NO ES NULL --> SI next existe pintemos el boton
-                next && (
-                    // {/* Me creo otro boton siguiente */ }
-                    < button
-                        className='btn btn-info mr-2'
-                        // on click
-                        onClick={
-                            // dispatch( llama la funcion especifica)
-                            // siguientePokemonAccion(RECIBE UN NUMERO)
-                            () => dispatch(siguientePokemonAccion())}>Siguiente →</button>
-                )
-
-            }
-
-            {/* HAGO UNA CONDICION PARA EL BOTON DE PREVIOUS */}
-            {
-                // SI EL PREVIOUS NO ES NULL --> SI previous existe pintemos el boton
-                previous && (
-                    // {/* Me creo otro boton anterior */ }
-                    < button
-                        className='btn btn-danger mr-2'
-                        // on click
-                        onClick={
-                            // dispatch( llama la funcion especifica)
-                            // anteriorPokemonAccion(RECIBE UN NUMERO)
-                            () => dispatch(anteriorPokemonAccion())}>← Anterior</button>
-                )
-            }
+                {/* para separar los botones */}
+                <div className="d-flex justify-content-between">
+                    {/* HAGO UNA CONDICION PARA LOS BOTONES */}
+                    {
+                        // SI POKEMONES.lenght es igual a 0 ---> mostramos el boton de pokemones
+                        pokemones.length === 0 && (
+                            // muestro el boton de obtener pokemones
+                            // {/* Me creo un boton */ }
+                            < button
+                                className='btn btn-warning mr-2'
+                                // on click
+                                onClick={
+                                    // dispatch( llama la funcion especifica)
+                                    () => dispatch(obtenerPokemonesAccion())}>Obtener pokemones</button>
+                        )
+                    }
 
 
+                    {/* HAGO UNA CONDICION PARA EL BOTON DE NEXT */}
+                    {
+                        // SI EL NEXT NO ES NULL --> SI next existe pintemos el boton
+                        next && (
+                            // {/* Me creo otro boton siguiente */ }
+                            < button
+                                className='btn btn-info mr-2'
+                                // on click
+                                onClick={
+                                    // dispatch( llama la funcion especifica)
+                                    // siguientePokemonAccion(RECIBE UN NUMERO)
+                                    () => dispatch(siguientePokemonAccion())}>Siguiente →</button>
+                        )
 
-            {/* hago una lista */}
-            <ul>
-                {
-                    // recorro mis pokemones
-                    pokemones.map((item, index) => (
-                        <li
-                            // le paso mi key
-                            key={item.name}>{item.name}</li>
-                    ))
-                }
-            </ul>
+                    }
+
+                    {/* HAGO UNA CONDICION PARA EL BOTON DE PREVIOUS */}
+                    {
+                        // SI EL PREVIOUS NO ES NULL --> SI previous existe pintemos el boton
+                        previous && (
+                            // {/* Me creo otro boton anterior */ }
+                            < button
+                                className='btn btn-danger mr-2'
+                                // on click
+                                onClick={
+                                    // dispatch( llama la funcion especifica)
+                                    // anteriorPokemonAccion(RECIBE UN NUMERO)
+                                    () => dispatch(anteriorPokemonAccion())}>← Anterior</button>
+                        )
+                    }
+                </div>
+
+
+
+
+
+                {/* hago una lista */}
+                <ul className='list-group mt-3'>
+                    {
+                        // recorro mis pokemones
+                        pokemones.map((item, index) => (
+                            <li
+                                // le paso mi key
+                                key={item.name}
+                                // clases
+                                className='list-group-item text-uppercase'
+                            >
+                                {item.name}
+                                {/* hago un boton dentro */}
+                                <button className="btn btn-success btn-sm float-right">Info</button>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+            <div className="col-md-6">
+                <h1>Detalle de un pokemon</h1>
+            </div>
         </div >
     )
 }
