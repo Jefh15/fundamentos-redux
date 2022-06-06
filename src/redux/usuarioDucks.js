@@ -109,3 +109,26 @@ export const ingresoUsuarioAccion = () => async (dispatch) => {
         })
     }
 }
+
+
+
+// acciones
+export const leerUsuarioActivoAccion = () => async (dispatch) => {
+
+    // recuperamos ese usuario activo
+    // si en localStorage existe una llave con la key usuario
+    if (localStorage.getItem('usuario')) {
+        // haz un dispatch
+        dispatch({
+            // del type USUARIO_EXITO
+            type: USER_EXITO,
+            // en el payload viene
+            // payload lo parseo, todo lo que venga del localStorage, con eso usamos la misma informacion que tiene el estado
+            payload: {
+                // regreso mi usuario
+                user: JSON.parse(localStorage.getItem('usuario'))
+            }
+        })
+    }
+
+}

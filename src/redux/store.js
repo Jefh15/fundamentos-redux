@@ -8,7 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 // importo mis reducers
 import pokesReducer from './pokeDucks'
-import usuarioReducer from './usuarioDucks'
+import usuarioReducer, { leerUsuarioActivoAccion } from './usuarioDucks'
 
 
 
@@ -33,6 +33,12 @@ export default function generateStore() {
     // configuro mi middleware, creo la tienda(paso nuestro root resucer, luego paso la extension( que recibe en su interior paso el middlware que el thunk))
     const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
     /* eslint-enable */
-    // la configurada la veolvemos
+
+    // antes de que se retorne el store, ejecutamos la accion
+    // como recibe un dispath ---> accedo al store que ya esta inicializado store.dispatch, para que pueda ejecutar el dispatch correspodiente
+    // cada vez que se inicie o refresque la tienda, lee si existe el usuario de localStorage
+    leerUsuarioActivoAccion()(store.dispatch)
+
+    // la configurada la devolvemos
     return store
 }
