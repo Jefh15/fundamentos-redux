@@ -42,10 +42,11 @@ export default function usuarioReducer(state = dataInicial, action) {
             // retorna el estado, y ademas el loading en false porque ya termino de pensar, y si el usuario esta activo, la data la pasamos directamente
             return { ...state, loading: false, activo: true, user: action.payload.user }
         case CERRAR_SESION:
+            // retorno nuestra data incial
             return { ...dataInicial }
         // accion por defecto
         default:
-            // retorna nuestro estado
+            // retorna nuestro estado, sin los datos de mi usuario
             return { ...state }
     }
 
@@ -131,4 +132,19 @@ export const leerUsuarioActivoAccion = () => async (dispatch) => {
         })
     }
 
+}
+
+// accion
+export const cerrarSesionAccion = () => (dispatch) => {
+    // el auth tiene un metodo que me cierra session
+    auth.signOut()
+
+    // remuevo de mi localStorage la llave 'usuario'
+    localStorage.removeItem('usuario')
+
+    // ejecuto mi dispatch 
+    dispatch({
+        // uso el tipo de cerrar secion para poder usarlo en mi caso
+        type: CERRAR_SESION
+    })
 }
