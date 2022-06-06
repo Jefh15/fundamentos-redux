@@ -69,7 +69,7 @@ const Pokemones = () => {
 
     return (
         <div
-            className='row'
+            className='row mt-5'
         >
 
             {/* trabajamos con el sistema de columnas */}
@@ -77,11 +77,37 @@ const Pokemones = () => {
 
                 <h3>Pokemones!</h3>
 
-                <br />
+                {/* <br /> */}
+
+
+                {/* Muestro mi lista */}
+                {/* hago una lista */}
+                <ul className='list-group mt-4'>
+                    {
+                        // recorro mis pokemones
+                        pokemones.map((item, index) => (
+                            <li
+                                // le paso mi key
+                                key={item.name}
+                                // clases
+                                className='list-group-item text-uppercase'
+                            >
+                                {item.name}
+                                {/* hago un boton dentro */}
+                                <button
+                                    className="btn btn-success btn-sm float-right"
+                                    // funcion
+                                    // url -> viene de --> item.url
+                                    onClick={() => dispatch(unpokeDetalleAccion(item.url))}
+                                >Info</button>
+                            </li>
+                        ))
+                    }
+                </ul>
 
 
                 {/* para separar los botones */}
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between mt-4">
                     {/* HAGO UNA CONDICION PARA LOS BOTONES */}
                     {
                         // SI POKEMONES.lenght es igual a 0 ---> mostramos el boton de pokemones
@@ -131,32 +157,6 @@ const Pokemones = () => {
                 </div>
 
 
-
-
-
-                {/* hago una lista */}
-                <ul className='list-group mt-3'>
-                    {
-                        // recorro mis pokemones
-                        pokemones.map((item, index) => (
-                            <li
-                                // le paso mi key
-                                key={item.name}
-                                // clases
-                                className='list-group-item text-uppercase'
-                            >
-                                {item.name}
-                                {/* hago un boton dentro */}
-                                <button
-                                    className="btn btn-success btn-sm float-right"
-                                    // funcion
-                                    // url -> viene de --> item.url
-                                    onClick={() => dispatch(unpokeDetalleAccion(item.url))}
-                                >Info</button>
-                            </li>
-                        ))
-                    }
-                </ul>
             </div>
             <div className="col-md-6">
                 <h3>Detalle Pokemon</h3>

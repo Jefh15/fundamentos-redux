@@ -3,7 +3,7 @@ import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 // para poder usar mis acciones de mi store
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // para poder empujar al usuario para login
 import { withRouter } from 'react-router-dom'
@@ -30,6 +30,15 @@ const Navbar = (props) => {
     }
 
 
+    // creo esta constante para obtener si tengo un usuario activo
+    const activo = useSelector(store => store.usuario.activo)
+
+
+
+
+
+
+
     return (
         <div className="navbar navbar-dark bg-dark">
             {/* para poder moverme a ese link, dando clic al nombre */}
@@ -40,32 +49,47 @@ const Navbar = (props) => {
 
             <div>
                 <div className="d-flex">
-                    {/* NavLink --> para pintar la clase active */}
-                    <NavLink
-                        className="btn btn-dark mr-2"
-                        // envianos al inicio o ruta raiz
-                        to="/"
-                        // con el exact --> coloca el active cuando este en la ruta
-                        exact
-                    >
-                        Inicio
-                    </NavLink>
-                    <NavLink
-                        className="btn btn-dark mr-2"
-                        // envianos al login
-                        to="/login"
-                        // con el exact --> coloca el active cuando este en la ruta
-                        exact
-                    >
-                        Login
-                    </NavLink>
-                    <button
-                        className="btn btn-danger"
-                        // llamo mi metodo 
-                        onClick={() => cerrarSesion()}
-                    >
-                        Cerrar Sesión
-                    </button>
+
+                    {/* condiciono si mi usuario esta activo para poder ocultar los botones y si no mostrarlos */}
+                    {
+                        activo ? (
+
+                            // SI ESTA ACTIVO MUESTRE LOS BOTONES DE HOME Y CERRAR SESION
+
+                            // uso fragment como es mas de un elemento
+                            <>
+                                {/* NavLink --> para pintar la clase active */}
+                                <NavLink
+                                    className="btn btn-dark mr-2"
+                                    // envianos al inicio o ruta raiz
+                                    to="/"
+                                    // con el exact --> coloca el active cuando este en la ruta
+                                    exact
+                                >
+                                    Inicio
+                                </NavLink>
+                                <button
+                                    className="btn btn-danger"
+                                    // llamo mi metodo 
+                                    onClick={() => cerrarSesion()}
+                                >
+                                    Cerrar Sesión
+                                </button>
+                            </>
+                        ) : (
+                            // SI NO ESTA ACTIVO MUESTRO SOLO EL BOTON DE LOGIN 
+                            <NavLink
+                                className="btn btn-dark mr-2"
+                                // envianos al login
+                                to="/login"
+                                // con el exact --> coloca el active cuando este en la ruta
+                                exact
+                            >
+                                Login
+                            </NavLink>
+                        )
+                    }
+
                 </div>
             </div>
         </div>
