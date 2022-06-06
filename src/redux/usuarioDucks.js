@@ -39,7 +39,7 @@ export default function usuarioReducer(state = dataInicial, action) {
             // trae loading y activo en false 
             return { ...dataInicial }
         case USER_EXITO:
-            // retorna el estado, y ademas el loading en false porque ya termino de pensar, la data la pasamos directamente
+            // retorna el estado, y ademas el loading en false porque ya termino de pensar, y si el usuario esta activo, la data la pasamos directamente
             return { ...state, loading: false, activo: true, user: action.payload.user }
         case CERRAR_SESION:
             return { ...dataInicial }
