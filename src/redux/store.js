@@ -5,8 +5,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 // para hacer promesas con redux
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-// importo mi archivo por defecto
+
+// importo mis reducers
 import pokesReducer from './pokeDucks'
+import usuarioReducer from './usuarioDucks'
+
+
+
 
 
 // combinar todos nuestros patos
@@ -14,8 +19,8 @@ const rootReducer = combineReducers({
     // toma un objeto
     // pokemones --> nombre descriptivo para consumir
     pokemones: pokesReducer,
-    // AQUI VAN TODOS NUESTROS PATOS EJ:
-    // usuarios: usuarioReducer
+    // nuestro otro reducer
+    usuario: usuarioReducer
 })
 
 // pregunta si tenemos instalada la extencion en caso contrario ocupamos conpose
