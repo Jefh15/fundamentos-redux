@@ -12,6 +12,8 @@ import {
 // importo mis componentes
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
+import Perfil from "./components/Perfil";
+
 
 // Recuerde hacer la importación de firebase
 import { auth } from './firebase'
@@ -123,6 +125,14 @@ function App() {
             component={Pokemones}
             path="/"
             exact />
+
+          {/* ESTA ES UN RUTA PRIVADA */}
+          <RutaPrivada
+            // component={Pokemones} ---> componente a usar
+            component={Perfil}
+            path="/perfil"
+            exact />
+
           {/* UNA RUTA NORMAL */}
           <Route component={Login} path="/login" exact />
         </Switch>

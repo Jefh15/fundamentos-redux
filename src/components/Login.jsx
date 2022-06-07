@@ -40,7 +40,8 @@ const Login = (props) => {
             props.history.push('/')
         }
         // [activo] --> ejecute una sola vez 
-    }, [activo])
+        // props.history ---> por la ruta
+    }, [activo, props.history])
 
 
 

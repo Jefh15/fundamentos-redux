@@ -68,6 +68,16 @@ const Navbar = (props) => {
                                 >
                                     Inicio
                                 </NavLink>
+                                {/* NavLink --> para pintar la clase active */}
+                                <NavLink
+                                    className="btn btn-info mr-2"
+                                    // envianos al inicio o ruta raiz
+                                    to="/perfil"
+                                    // con el exact --> coloca el active cuando este en la ruta
+                                    exact
+                                >
+                                    Perfil
+                                </NavLink>
                                 <button
                                     className="btn btn-danger"
                                     // llamo mi metodo 
