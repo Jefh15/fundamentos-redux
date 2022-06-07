@@ -1,4 +1,5 @@
-import { auth, firebase } from "../firebase";
+// importo mi archivo de firebase para poder usar los servicios
+import { auth, firebase, db } from "../firebase";
 
 
 
@@ -66,6 +67,7 @@ export const ingresoUsuarioAccion = () => async (dispatch) => {
 
     try {
         // solicitud a una base de datos
+        // LOGEAMOS EL USUARIO CON GOOGLE
 
         // para poder usar la autenticacion de firebase
         // auth no lleva () ---> porque ya esta inicializado
@@ -73,31 +75,78 @@ export const ingresoUsuarioAccion = () => async (dispatch) => {
         // nos da la respuesta de nuestro Popup
         // signInWithPopup(provider)--> acceda con nuestra provedor
         const res = await auth.signInWithPopup(provider)
+
         // muestro la respuesta que tiene un usuario
-        // console.log(res)
+        console.log(res.user)
 
-        // para que nos muestre que el usuario fue exitoso
-        dispatch({
-            type: USER_EXITO,
-            payload: {
-                // creo mi payload
-                // venga de res.user.uid
-                user: {
-                    uid: res.user.uid,
-                    email: res.user.email
-                }
-            }
-        })
-
-        // guardamos ese usuario en el localStorage
-        // 'usuario' ---> es mi key
-        // JSON.stringify({ ----> lo convierto 
-        localStorage.setItem('usuario', JSON.stringify({
-            // que guardo en mi key 
+        // Ahora voy a extraer las props de res.user ----> toda esa informacion viene de google
+        const usuario = {
             uid: res.user.uid,
-            email: res.user.email
-        }))
+            email: res.user.email,
+            displayName: res.user.displayName,
+            photoURL: res.user.photoURL
+        }
 
+
+        // usuarioDB --> viene de nuestra coleccion
+        // cuando el usuario se logee por primera o segunda ves ---> por si hay cambios de nombre o foto
+        // preguntamos, si existe le usuario en db ya guardado
+        // .doc(usuario.email) ---> preguntamos por el usuario por su email
+        const usuarioDB = await db.collection('usuarios').doc(usuario.email).get()
+        console.log(usuarioDB)
+
+
+
+        // como nos devuelve falso la propiedad exists --> de mi respuesta de usuarioDB
+        if (usuarioDB.exists) {
+
+            // CUANDO EL USUARIO SI EXISTA ---> deberiamos leer de la base de datos
+            // y guardarlo el el dispatch y en el localStorage
+            // para que nos muestre que el usuario fue exitoso
+            dispatch({
+                type: USER_EXITO,
+                // mi payload es mi usuarioDB ahora --> porque ya esta cargado en mi peticion
+                // .data() ---> accede al objeto
+                payload: usuarioDB.data()
+
+            })
+
+            // guardamos ese usuario en el localStorage
+            // 'usuario' ---> es mi key
+            // JSON.stringify({ ----> lo convierto 
+            localStorage.setItem('usuario', JSON.stringify(
+                // guardo mi usuarioDB.data() ---> que es lo que tiene mi peticion
+                // .data() ---> accede al objeto
+                usuarioDB.data()
+            ))
+
+        } else {
+
+            // CUANDO EL USUARIO NO EXISTA EN FIRESTORE
+
+            // en caso de que el usuario no exista en firestore
+            // guardamos ese usaario en la base de datos
+            // con su id en especifico ---> .doc(usuario.email)
+            // pero colocamos su set() -->  este es un objeto pero como ya lo tenemos construido lo pasamos directamente
+            await db.collection('usuarios').doc(usuario.email).set(usuario)
+
+            // para que nos muestre que el usuario fue exitoso
+            dispatch({
+                type: USER_EXITO,
+                // mi payload es mi usuario ahora --> por eso construimos el objeto
+                payload: usuario
+
+            })
+
+            // guardamos ese usuario en el localStorage
+            // 'usuario' ---> es mi key
+            // JSON.stringify({ ----> lo convierto 
+            localStorage.setItem('usuario', JSON.stringify(
+                // guardo mi usuario ---> que por primera ves lo estamos guardando
+                usuario
+            ))
+
+        }
 
 
     } catch (error) {
