@@ -2,6 +2,9 @@
 import firebase from 'firebase/app'
 // para la autenticacion
 import 'firebase/auth'
+// importo firebase/para firestore para imagenes
+import 'firebase/firestore'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyD2V56XyL8uzi8mSxC2Wt77D1NNLNPCbTQ",
@@ -18,5 +21,9 @@ firebase.initializeApp(firebaseConfig);
 // tomo la autenticacion en modo funcion
 const auth = firebase.auth()
 
-// exportamos el auth y firebase
-export { auth, firebase }
+// tomo el almacenamiento en modo funcion
+const db = firebase.firestore()
+
+
+// exportamos el auth y firebase y db
+export { auth, firebase, db }
