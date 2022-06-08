@@ -1,5 +1,6 @@
 // importo mi archivo de firebase para poder usar los servicios
-import { auth, firebase, db } from "../firebase";
+import { auth, firebase, db, storage } from "../firebase";
+
 
 
 
@@ -196,4 +197,129 @@ export const cerrarSesionAccion = () => (dispatch) => {
         // uso el tipo de cerrar secion para poder usarlo en mi caso
         type: CERRAR_SESION
     })
+}
+
+
+// accion
+// como parametro recibo el nombre ---> nombreActualizado
+export const actualizarUsuarioAccion = (nombreActualizado) => async (dispatch, getState) => {
+
+
+    // operacion al consumir una base de datos
+    dispatch({
+        type: LOADING
+    })
+
+
+    // accedo al estado del usuario, usuario --> viene de store.js en redux
+    const { user } = getState().usuario
+    // muestro el usuario, tiene todas las propiedades de usuario
+    console.log(user)
+
+
+
+    try {
+
+        // espero que se actualice en mi firestore y mi localStorage
+        // .doc(user.email) ---> esa es mi llave
+        await db.collection('usuarios').doc(user.email).update({
+            // actualizo mi displayName
+            displayName: nombreActualizado
+        })
+
+
+        // creo usuario que es nuestro
+        const usuarioEditado = {
+            // le paso todo el mismo objeto de user
+            ...user,
+            // y cambio mi nombre por el actualizado
+            displayName: nombreActualizado
+        }
+
+        // AQUI ACTUALIZO LA TIENDA --> store.js
+        // ejecuto la accion de usuario exito, 
+        dispatch({
+            // recibe el tipo
+            type: USER_EXITO,
+            // mi payload es mi usuario construido
+            payload: usuarioEditado
+        })
+
+
+        // lo guardo en mi localStorage
+        localStorage.setItem('usuario', JSON.stringify(usuarioEditado))
+
+
+    } catch (error) {
+        // muestro mi error si lo hay
+        console.log(error)
+    }
+}
+
+
+
+// accion
+export const actualizarFotoAccion = (imagenEditada) => async (dispatch, getState) => {
+
+
+    // como es un async
+    dispatch({
+        type: LOADING
+    })
+
+    // reutilizo mi usuario
+    const { user } = getState().usuario
+
+
+
+
+    try {
+
+        // imagen que vamos a referenciar de nuestro back-end
+        // storage.ref() ---> donde va a estar guardada nuestra imagen
+        // ref().child(user.email) ---> indicar la el nombre de la carpeta que vamos a guardar, en este caso con el email del usuario
+        // .child('foto perfil') ---> nombre del archivo
+        const refImagen = await storage.ref().child(user.email).child('foto perfil')
+
+        // ahi viene nuestra imagen ---> aqui la guardamos
+        await refImagen.put(imagenEditada)
+
+        // para decirle que esto viene de nuestro BACKEND
+        // getDownloadURL() --> nos trae la url donde nosotros estamos guardando la imagen
+        const urlDescarga = await refImagen.getDownloadURL()
+
+
+        // actualizamos en la base de datos
+        await db.collection('usuarios').doc(user.email).update({
+            // actualizamos la foto actualizada
+            photoURL: urlDescarga
+        })
+
+
+        // creamos el objeto nuevo
+        const usuarioEditado = {
+            // toda la informacion no actualizada
+            ...user,
+            // le pasamos la nueva imagen
+            photoURL: urlDescarga
+        }
+
+
+        // 
+        dispatch({
+            // nuestro tipo
+            type: USER_EXITO,
+            // le enviamos el nuevo ebjeto
+            payload: usuarioEditado
+        })
+
+        // actualizamos el localStorage
+        localStorage.setItem('usuario', JSON.stringify(usuarioEditado))
+
+
+    } catch (error) {
+        // muestro el error
+        console.log(error)
+    }
+
 }

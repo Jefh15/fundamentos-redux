@@ -4,6 +4,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 // importo firebase/para firestore para imagenes
 import 'firebase/firestore'
+// para usar el servicio de almacenamiento de archivos
+import 'firebase/storage'
 
 
 const firebaseConfig = {
@@ -24,6 +26,9 @@ const auth = firebase.auth()
 // tomo el almacenamiento en modo funcion
 const db = firebase.firestore()
 
+// para poder usar mi firebase.Storage() en modo funcion
+const storage = firebase.storage()
 
-// exportamos el auth y firebase y db
-export { auth, firebase, db }
+
+// exportamos el auth y firebase y db y storage
+export { auth, firebase, db, storage }

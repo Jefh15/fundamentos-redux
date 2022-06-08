@@ -41,7 +41,7 @@ function App() {
       // user ---> se guarda en mi estado firebaseUser
       auth.onAuthStateChanged(user => {
         // muestra al usuario
-        console.log(user)
+        // console.log(user)
         // si el usuario existe
         if (user) {
           // agrego al state el usuario
